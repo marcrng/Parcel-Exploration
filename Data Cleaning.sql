@@ -708,4 +708,4 @@ alter table kcparcels
     add foreign key (OBJECTID) references geodata (object_id);
 
 alter table details
-add foreign key (object_id) references kcparcels (OBJECTID)
+    add foreign key (object_id) references kcparcels (OBJECTID)
