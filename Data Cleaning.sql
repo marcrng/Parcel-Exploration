@@ -1,5 +1,6 @@
-use parcel_data;
+# uszips.csv sourced from https://simplemaps.com/data/us-zips
 
+use parcel_data;
 
 # Drop 'major', 'minor' columns
 alter table kcparcels
@@ -709,3 +710,96 @@ alter table kcparcels
 
 alter table details
     add foreign key (object_id) references kcparcels (OBJECTID)
+
+# Create val_total by adding land value and improvement value in main table
+alter table kcparcels
+    add val_total int;
+
+update kcparcels
+set kcparcels.val_total = (
+select sum(TAX_LNDVAL + TAX_IMPR)
+group by OBJECTID);
+
+# Create uszips table to update addresses with missing zip5
+create table uszips(
+    city varchar(255),
+    zip int,
+    population int,
+    density double,
+    county varchar(255)
+);
+
+# Delete unnecessary rows from uszips
+delete from uszips
+where county != 'King';
+
+# Update missing zip5 in addresses using uszips
+update addresses
+set addresses.cityname = (
+    select CTYNAME
+    from tbl_master
+    where OBJECTID = OBJECTID
+    );
+
+update addresses a
+set cityname = KCTP_city
+where cityname is null;
+
+update addresses a
+set cityname = (
+    select city
+    from uszips
+    where zip = zip5
+    )
+where cityname is null;
+
+select cityname
+from addresses
+where zip5 = 98011
+
+# Fix cityname typos
+# DISCOVERY: Many cityname errors for Milton
+update addresses
+set cityname = (
+    select city
+    from uszips
+    where zip5 = zip
+    );
+
+# Function to capitalize each word  http://joezack.com/2008/10/20/mysql-capitalize-function/
+CREATE FUNCTION CAP_FIRST (input VARCHAR(255))
+
+RETURNS VARCHAR(255)
+
+DETERMINISTIC
+
+BEGIN
+	DECLARE len INT;
+	DECLARE i INT;
+
+	SET len   = CHAR_LENGTH(input);
+	SET input = LOWER(input);
+	SET i = 0;
+
+	WHILE (i < len) DO
+		IF (MID(input,i,1) = ' ' OR i = 0) THEN
+			IF (i < len) THEN
+				SET input = CONCAT(
+					LEFT(input,i),
+					UPPER(MID(input,i + 1,1)),
+					RIGHT(input,len - i - 1)
+				);
+			END IF;
+		END IF;
+		SET i = i + 1;
+	END WHILE;
+
+	RETURN input;
+END;
+
+update addresses
+set cityname = CAP_FIRST(cityname);
+
+select distinct cityname, zip5
+from addresses
+group by cityname
