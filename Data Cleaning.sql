@@ -717,20 +717,22 @@ alter table kcparcels
 
 update kcparcels
 set kcparcels.val_total = (
-select sum(TAX_LNDVAL + TAX_IMPR)
-group by OBJECTID);
+    select sum(TAX_LNDVAL + TAX_IMPR)
+    group by OBJECTID);
 
 # Create uszips table to update addresses with missing zip5
-create table uszips(
-    city varchar(255),
-    zip int,
+create table uszips
+(
+    city       varchar(255),
+    zip        int,
     population int,
-    density double,
-    county varchar(255)
+    density    double,
+    county     varchar(255)
 );
 
 # Delete unnecessary rows from uszips
-delete from uszips
+delete
+from uszips
 where county != 'King';
 
 # Update missing zip5 in addresses using uszips
@@ -739,7 +741,7 @@ set addresses.cityname = (
     select CTYNAME
     from tbl_master
     where OBJECTID = OBJECTID
-    );
+);
 
 update addresses a
 set cityname = KCTP_city
@@ -750,7 +752,7 @@ set cityname = (
     select city
     from uszips
     where zip = zip5
-    )
+)
 where cityname is null;
 
 select cityname
@@ -764,37 +766,36 @@ set cityname = (
     select city
     from uszips
     where zip5 = zip
-    );
+);
 
 # Function to capitalize each word  http://joezack.com/2008/10/20/mysql-capitalize-function/
-CREATE FUNCTION CAP_FIRST (input VARCHAR(255))
-
-RETURNS VARCHAR(255)
-
-DETERMINISTIC
+CREATE FUNCTION CAP_FIRST(input VARCHAR(255))
+    RETURNS VARCHAR(255)
+    DETERMINISTIC
 
 BEGIN
-	DECLARE len INT;
-	DECLARE i INT;
+    DECLARE len INT;
+    DECLARE i INT;
 
-	SET len   = CHAR_LENGTH(input);
-	SET input = LOWER(input);
-	SET i = 0;
+    SET len = CHAR_LENGTH(input);
+    SET input = LOWER(input);
+    SET i = 0;
 
-	WHILE (i < len) DO
-		IF (MID(input,i,1) = ' ' OR i = 0) THEN
-			IF (i < len) THEN
-				SET input = CONCAT(
-					LEFT(input,i),
-					UPPER(MID(input,i + 1,1)),
-					RIGHT(input,len - i - 1)
-				);
-			END IF;
-		END IF;
-		SET i = i + 1;
-	END WHILE;
+    WHILE (i < len)
+        DO
+            IF (MID(input, i, 1) = ' ' OR i = 0) THEN
+                IF (i < len) THEN
+                    SET input = CONCAT(
+                            LEFT(input, i),
+                            UPPER(MID(input, i + 1, 1)),
+                            RIGHT(input, len - i - 1)
+                        );
+                END IF;
+            END IF;
+            SET i = i + 1;
+        END WHILE;
 
-	RETURN input;
+    RETURN input;
 END;
 
 update addresses
@@ -803,3 +804,34 @@ set cityname = CAP_FIRST(cityname);
 select distinct cityname, zip5
 from addresses
 group by cityname
+
+# Add/populate county, state field to addresses for Tableau mapping
+alter table addresses
+    add column county varchar(255),
+    add column state  varchar(50);
+
+update addresses
+set county = 'King';
+
+update addresses
+set state = 'WA';
+
+# Change details.parcel_num type to string for Tableau
+alter table details
+modify column parcel_num varchar(255);
+
+# Set val_totals of parcels without any valuation info to null
+update kcparcels
+set val_total = null
+where val_total = 0;
+
+# Some parcels don't have traditional values (government, educational, etc.)
+# Update these using appr_impr
+update kcparcels
+set val_total = APPR_IMPR
+where val_total is null;
+
+# Make sure parcel numbers are 10 digits total
+update details
+set parcel_num = lpad(parcel_num, 10, 0);
+
