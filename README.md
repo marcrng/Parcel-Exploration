@@ -53,12 +53,12 @@ where PREUSE_DESC like '%Apartment%'
 
 ### Creating the first visualizations in Tableau
 
-![img.png](.\Images\zip_values.png)
+![zip_values](.\Images\zip_values.png)
 Above is the first quick visualization that plotted total property values for each zip code. During this step, I realized it would be helpful to create a ratio between property value and population in order to better gauge which cities had more expensive single-family properties.
 
 This required importing population data from the KSGIS database and joining it. This would have been better to do at the start of the project in SQL if I did better during the initial planning/preparing stage.  
 
-![img_2.png](.\images\zip_values_v2.png)
+![img_2.png](\images\zip_values_v2.png)
 This was the result after dividing the total value of residential properties by the population in each zip, changing the colors to red-green diverging (for those with difficulty seeing color), and setting the color steps to 5 to accentuate the differences between regions.
 
 ### Creating a treemap
