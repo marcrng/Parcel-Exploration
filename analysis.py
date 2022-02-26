@@ -1,5 +1,17 @@
 import pandas as pd
-import matplotlib as plt
+import mysql.connector
 
-df = pd.read_csv('Data/parcel_data_kcparcels.csv')
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="marcrng",
+    password="Kaisersql0413$",
+    database="parcel_data"
+)
 
+curs = mydb.cursor()
+
+curs.execute("select * from site_types")
+
+result = curs.fetchall()
+
+print(result)
