@@ -54,24 +54,29 @@ where PREUSE_DESC like '%Apartment%'
 ### Creating the first visualizations in Tableau
 
 ![zip_values](Images/zip_values.png)
+
 Above is the first quick visualization that plotted total property values for each zip code. During this step, I realized it would be helpful to create a ratio between property value and population in order to better gauge which cities had more expensive single-family properties.
 
 This required importing population data from the KSGIS database and joining it. This would have been better to do at the start of the project in SQL if I did better during the initial planning/preparing stage.  
 
 ![img_2.png](Images/zip_values_v2.png)
+
 This was the result after dividing the total value of residential properties by the population in each zip, changing the colors to red-green diverging (for those with difficulty seeing color), and setting the color steps to 5 to accentuate the differences between regions.
 
 ### Creating a treemap
 
 ![img_1.png](Images/zip_tree.png)
+
 This treemap was meant to be a companion to the first map, allowing users to quickly select a city and its associated zip codes and view them within the map.
 
 ### Building a parcel-level map
 ![img_5.png](Images/parcel_map.png)
+
 This map provides a data point for each parcel, which can be filtered by property type, price range, and city. The user can further filter in on the neighborhood they want to examine by using the lasso tool to isolate certain properties.
 
 ### Trial Dashboard
 ![img_8.png](Images/trial_dashboard.png)
+
 The current state of the dashboard, with part of Mercer Island isolated to demonstrate how the average value fields and average square footage fields filter along with the map. Future iterations will have more interactions between the map and separate charts that will display property details.
 
 ### Future Plans
