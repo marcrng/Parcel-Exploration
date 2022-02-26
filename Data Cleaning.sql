@@ -1,4 +1,9 @@
 # uszips.csv sourced from https://simplemaps.com/data/us-zips
+# This didn't
+# change even after living in Seattle for a few years, where you can drive down SODO's
+# industrial district, and be in the middle of Seattle's International District within a few
+# minutes (depending on traffic!).
+# Above saved for readme
 
 use parcel_data;
 
@@ -218,7 +223,7 @@ from kcparcels
 where SITETYPE is null
   and PREUSE_DESC is null;
 
-# Create table to hold address info
+# Create table to hold address info (Shouldn't have done this)
 create table addresses
 (
     object_id       int primary key,
@@ -570,6 +575,8 @@ alter table kcparcels
 
 # Create details table to further reduce kcparcels (one-to-one relationship)
 # NOTE: text has a fixed size of 65,535 while varchar has a max size of 65,535
+
+# Shouldn't have done this either
 create table details
 (
     object_id     int primary key,
@@ -835,3 +842,5 @@ where val_total is null;
 update details
 set parcel_num = lpad(parcel_num, 10, 0);
 
+
+describe tbl_master

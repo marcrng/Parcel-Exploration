@@ -27,10 +27,23 @@ join uszips u on a.zip5 = u.zip
 group by zip5;
 
 # Query for Parcel Valuations - Detail
-# Query execution was too slow without a custom query
+#   Query execution was too slow without a custom query
+#   could be faster if tables were broken down more logically
+#   (one-to-one relationships kept in same table, many to one separated, etc.)
 select parcel_num , objectid, name, cityname, address, description, val_total
 from kcparcels k
 join addresses a on k.OBJECTID = a.object_id
 join geodata g on k.OBJECTID = g.object_id
 join site_types st on k.SITETYPE = st.id
 join details d on k.OBJECTID = d.object_id
+
+select val_total, APPR_IMPR, TAX_LNDVAL, TAX_IMPR
+from kcparcels k
+join addresses a on k.OBJECTID = a.object_id
+where cityname = 'Bellevue'
+and SITETYPE = 'R1'
+and val_total > 1000
+order by val_total desc
+limit 100;
+
+describe tbl_master
