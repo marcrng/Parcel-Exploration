@@ -94,6 +94,7 @@ The current state of the dashboard, with part of Mercer Island isolated to demon
 ### Future Plans
 
 - Building the storyboard that will have an overall aesthetic and theme
+- Improve look & feel of layout and selections
 - Including some type of regression analysis to determine correlation between things like property value and age of population.
 
 ### Things to improve
@@ -101,4 +102,4 @@ The current state of the dashboard, with part of Mercer Island isolated to demon
 Some things weren't possible with the data available publicly, since Zillow's public API is no longer available.
 
 - Classify properties by square footage of the home itself, instead of the parcel 
-- Compare homes based on # of bedrooms, bathrooms/renovations/features (pools, etc.)
+- Compare homes based on # of bedrooms, bathrooms/renovations/features (pools, view, etc.)
