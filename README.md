@@ -6,7 +6,7 @@
 
 This is the first part of what will eventually become a writeup of King County property prices and what factors influence these prices the most (hopefully). For now, we'll be focusing on visualizing our market with some interactive maps and graphs that will help us compare neighborhoods visually and getting into the statistics in part two.
 
-This is my first project since taking a break after graduating from college to renovate (more like fix) an entire house from plumbing to electrical for a few months, so my process was a little messy.
+This is my first project since taking a break after graduating to renovate/fix a house from plumbing to electrical for a few months, so the process might be messy.
 
 Data to complete this project was sourced from:
 
