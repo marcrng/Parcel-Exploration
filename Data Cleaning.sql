@@ -566,7 +566,7 @@ alter table levycodes
     add levycity varchar(50);
 
 update levycodes l
-    inner join kcparcels k on l.levycode = k.LEVYCODE
+    join kcparcels k on l.levycode = k.LEVYCODE
 set l.levycity = k.LEVY_JURIS;
 
 # Remove redundant rows from kcparcels
@@ -842,5 +842,3 @@ where val_total is null;
 update details
 set parcel_num = lpad(parcel_num, 10, 0);
 
-
-describe tbl_master

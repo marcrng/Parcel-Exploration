@@ -1,4 +1,4 @@
-# Parcel Exploration [(Project Link)](https://public.tableau.com/app/profile/marc3010/viz/ParcelExplorationDashboard/ParcelExplorationDashboard)
+# Parcel Exploration
 
 ## Description
 
@@ -53,29 +53,41 @@ where PREUSE_DESC like '%Apartment%'
 
 ### Creating the first visualizations in Tableau
 
-![zip_values](Images/zip_values.png)
+![Initial version of zip-level map](Images/zip_values.png)
 
-Above is the first quick visualization that plotted total property values for each zip code. During this step, I realized it would be helpful to create a ratio between property value and population in order to better gauge which cities had more expensive single-family properties.
+Above is the first quick visualization that plotted total property values for each zip code. During this step, I realized it would be better to create a different way to compare zip codes, since those that have a small amount of properties but a high value wouldn't be represented as such.
 
 This required importing population data from the KSGIS database and joining it. This would have been better to do at the start of the project in SQL if I did better during the initial planning/preparing stage.  
 
-![img_2.png](Images/zip_values_v2.png)
+![Second version of zip-level map](Images/zip_values_v2.png)
 
 This was the result after dividing the total value of residential properties by the population in each zip, changing the colors to red-green diverging (for those with difficulty seeing color), and setting the color steps to 5 to accentuate the differences between regions.
 
-### Creating a treemap
+~~Still deciding which way to compare each region would be best. So far I'm considering:~~
+- ~~Zip total / Whole county total~~ 
+- ~~Zip total / # of parcels in zip~~
+- ~~Zip total / Population of zip~~
 
-![img_1.png](Images/zip_tree.png)
+~~The first option made the most sense to me initially, but still doesn't address the fact that each area has a different amount of area/population/housing.~~
+
+#### Final iteration of zip-level map
+![Final version of zip-level map](Images/zip_values_final.png)
+
+For the final iteration of the zip-level map, I went with dividing the total values of parcels in each zip by its number of parcels, then using Tableau's rank calculation. The result above shows us how each zip code competes with the others, given the average value for all parcels in the area.
+
+
+### Creating a treemap
+![First version of zip treemap](Images/zip_tree.png)
 
 This treemap was meant to be a companion to the first map, allowing users to quickly select a city and its associated zip codes and view them within the map.
 
 ### Building a parcel-level map
-![img_5.png](Images/parcel_map.png)
+![First version of parcel-level map](Images/parcel_map.png)
 
 This map provides a data point for each parcel, which can be filtered by property type, price range, and city. The user can further filter in on the neighborhood they want to examine by using the lasso tool to isolate certain properties.
 
 ### Trial Dashboard
-![img_8.png](Images/trial_dashboard.png)
+![Initial test dashboard](Images/trial_dashboard.png)
 
 The current state of the dashboard, with part of Mercer Island isolated to demonstrate how the average value fields and average square footage fields filter along with the map. Future iterations will have more interactions between the map and separate charts that will display property details.
 
@@ -83,3 +95,10 @@ The current state of the dashboard, with part of Mercer Island isolated to demon
 
 - Building the storyboard that will have an overall aesthetic and theme
 - Including some type of regression analysis to determine correlation between things like property value and age of population.
+
+### Things to improve
+
+Some things weren't possible with the data available publicly, since Zillow's public API is no longer available.
+
+- Classify properties by square footage of the home itself, instead of the parcel 
+- Compare homes based on # of bedrooms, bathrooms/renovations/features (pools, etc.)
