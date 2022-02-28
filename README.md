@@ -86,10 +86,19 @@ This treemap was meant to be a companion to the first map, allowing users to qui
 
 This map provides a data point for each parcel, which can be filtered by property type, price range, and city. The user can further filter in on the neighborhood they want to examine by using the lasso tool to isolate certain properties.
 
-### Trial Dashboard
+### Trial dashboard
 ![Initial test dashboard](Images/trial_dashboard.png)
 
-The current state of the dashboard, with part of Mercer Island isolated to demonstrate how the average value fields and average square footage fields filter along with the map. Future iterations will have more interactions between the map and separate charts that will display property details.
+Initial version of the dashboard, with part of Mercer Island isolated to demonstrate how the average value fields and average square footage fields filter along with the map. Future iterations will have more interactions between the map and separate charts that will display property details.
+
+### Second version of dashboard
+![Dashboard v2](Images/Dashboard_v2.png)
+
+This version of the dashboard added the zip-level map for filtering, along with a simple histogram displaying how parcels in King County roughly follow a Pareto distribution. Most of the parcels are valued between $350K-$500K, while some parcels are valued all the way up to $130M.
+
+![Histogram of parcel prices](Images/histogram.png)
+
+Each bar in the histogram represents the count of properties at that price point. It's noted that a goodness-of-fit test should be done to confirm whether or not the data fits an F distribution. The results here are to be expected, since they roughly follow the distribution of wealth.
 
 ### Future Plans
 
