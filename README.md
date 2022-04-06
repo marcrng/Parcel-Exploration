@@ -13,7 +13,7 @@ Data to complete this project was sourced from:
 - [King County GIS Center](https://kingcounty.gov/services/gis.aspx)
 - [simplemaps](https://simplemaps.com/data/us-zips)
 
-**Tools used: MySQL, Tableau**
+**Tools used: MySQL, Tableau, Python(Pandas, regex)**
 ## Plan
 
 ---
@@ -36,6 +36,8 @@ The main table was manageable after dropping about half the rows, which were mos
 This was done using `CREATE TABLE` and assigning a primary key id to reference back to the main table.
 
 ### Cleaning the data
+Many of the integer fields had inconsistent formatting, so I first uploaded the data into a Python dataframe and used ```str.replace()``` and ```str.strip()``` to remove any errant characters and whitespaces that were keeping me from converting the column to the integer type. I also cross referenced this with the original table for the largest and smallest values to catch any outliers that might have been present in the data.
+
 A lot of the site types (field that classifies a property as residential, commercial, etc.) were null, so assigning a site type from the 'description' field was necessary for many entries. This took the most time, as most entries were described with different terms, so labelling site type for multi-residential homes looked like this:
 
 ```sql
